@@ -33,7 +33,8 @@ namespace LapseOTron
 
             Globals.Init();
 
-            Globals.Expiry = new DateTime(2022, 6, 1);
+            // Expiry origionally added to allow for forced updates to later releases. Not needed so much now! Will move to auto-update checking anyway.
+            Globals.Expiry = new DateTime(2050, 1, 1);
 
             SettingLoadState loadState = SettingLoadState.Ok;
             Debugging.AddA("Loading settings...");

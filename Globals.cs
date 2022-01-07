@@ -42,23 +42,13 @@ namespace LapseOTron
         /// HomeFolder points to main LapseOTron folder in My Documents
         /// </summary>
         public static string HomeFolder { get; set; }
-        //public static string SettingsFolder { get; set; }
 
-        //public static string UserSettingsFile { get; set; }
-        //public static string RuntimeSettingsFile { get; set; }
-        //public static string SpecotronSettingsFile { get; set; }
         public static string CrashFile { get; set; }
         public static string LogFile { get; set; }
 
 
         public static ObservableCollection<string> Mpeg4Codecs { get; } = new ObservableCollection<string>();
 
-        //public static bool Capture_IncludeCursor { get; set; }
-        //public static bool Capture_IncludeHighlight { get; set; }
-        //public static SizeHandling Capture_SizeHandling { get; set; } = SizeHandling.CropToFit;
-        //public static bool Capture_OnlyOnContentChange { get; set; }
-        //public static bool Capture_ZoomInToCursorPosition { get; set; }
-        //public static bool Capture_HighQualityZoom { get; set; }
         public static bool ContentChanged { get; set; } = false;
 
         public static long Performance_LastScreenCaptureRate { get; set; }
@@ -139,7 +129,7 @@ namespace LapseOTron
                 Debugging.AddA($"      ✚ folder was missing, created!");
             }
 
-            LogFolder = HomeFolder; // Path.Combine(HomeFolder, "Logs");
+            LogFolder = HomeFolder;
             Debugging.AddA($"   ❓ Log folder: {LogFolder}");
             if (!Directory.Exists(LogFolder))
             {

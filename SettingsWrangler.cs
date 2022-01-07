@@ -24,12 +24,6 @@ namespace LapseOTron
         Error
     }
 
-    //public class TagDescriptionPair
-    //{
-    //    public string Tag { get; set; }
-    //    public string Description { get; set; }
-    //}
-
     /// <summary>
     /// Handles settings and runtime settings.
     /// - Runtime settings are lightweight quick settings that change often - e.g. current song position + playlist + window position.

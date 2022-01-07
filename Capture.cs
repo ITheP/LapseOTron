@@ -54,8 +54,8 @@ namespace LapseOTron
         }
     }
 
-    public class RecorderParams
     // Used to Configure the Recorder
+    public class RecorderParams
     {
         public IntPtr HWnd;
 
@@ -80,8 +80,7 @@ namespace LapseOTron
         ////        string.Format("lameenc{0}.dll", Environment.Is64BitProcess ? "64" : "32")));
         ////}
 
-        public RecorderParams(string filename, int frameRate, FourCC encoder, int quality,
-            int audioSourceId, bool useStereo, bool encodeAudio, int audioQuality, bool includeCursor, AppInfo appInfo, Size destSize)
+        public RecorderParams(string filename, int frameRate, FourCC encoder, int quality, int audioSourceId, bool useStereo, bool encodeAudio, int audioQuality, bool includeCursor, AppInfo appInfo, Size destSize)
         {
             //Debug.Print("RecorderParams created");
 
@@ -229,7 +228,7 @@ namespace LapseOTron
 
             this.RecorderParams = Params;
 
-            //            Buffer = new byte[Params.SrcWidth * Params.SrcHeight * 4];
+            // Buffer = new byte[Params.SrcWidth * Params.SrcHeight * 4];
 
             // Create AVI writer and specify FPS
             Writer = Params.CreateAviWriter();

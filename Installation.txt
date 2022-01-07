@@ -1,4 +1,4 @@
-﻿Needs relevant codecs installed.
+﻿Needs relevant codecs installed to work.
 
 Recommend...
 

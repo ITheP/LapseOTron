@@ -21,9 +21,18 @@ namespace LapseOTron
 {
     public enum ZoomInstruction
     {
-        JustChillDude = 0,  // Do nothing
-        InitOffset = 1,     // Uses current offset of mouse from centre of window as where we zoom into (bordering at the edge of window if is outside)
-        ResetOffset = 2     // Resets offset to nothing
+        /// <summary>
+        /// Do nothing
+        /// </summary>
+        JustChillDude = 0,
+        /// <summary>
+        /// Uses current offset of mouse from centre of window as where we zoom into (bordering at the edge of window if is outside)
+        /// </summary>
+        InitOffset = 1,
+        /// <summary>
+        ///  Resets offset to nothing
+        /// </summary>
+        ResetOffset = 2
     }
 
     public static class ScreenCapture
@@ -154,20 +163,15 @@ namespace LapseOTron
 
             NativeMethods.SelectObject(GeneralhMemDC, hOld);
 
-
-            //Bitmap BMP;
-
-
-
-            // E.G. Can also use the CursorX and Y to draw e.g. highlighting (e.g. a shrinking circle)
+            // Can also use the CursorX and Y to draw e.g. highlighting (e.g. a shrinking circle)
 
             BitmapSource screenshotImage = null;
 
             // int destWidth = RecorderParams.DestWidth;
             // int destHeight = RecorderParams.DestHeight;
 
-            //  float srcWidth = RecorderParams.SrcWidth;
-            //  float srcHeight = RecorderParams.SrcHeight;
+            // float srcWidth = RecorderParams.SrcWidth;
+            // float srcHeight = RecorderParams.SrcHeight;
 
             float drawWidth = destWidth;
             float drawHeight = destHeight;
@@ -235,7 +239,6 @@ namespace LapseOTron
                     break;
             }
 
-
             //    Debug.Print("After....");
             //    Debug.Print($"Src   : {srcWidth},{srcHeight}");
             //    Debug.Print($"Dest  : {destWidth},{destHeight}");
@@ -245,7 +248,6 @@ namespace LapseOTron
 
             // ToDo: Retain aspect ratio
             // ToDo: Size to fit
-            //if (srcWidth)
 
             // Info from http://www.itgo.me/a/x1025659752280739323/how-to-capture-screen-to-be-video-using-c-sharp-net (didn't quite work, needed fixing, plus some bad GDI leaks!)
 
@@ -253,9 +255,6 @@ namespace LapseOTron
             Bitmap cursorBmp = null; // Icon.FromHandle(hIcon).ToBitmap();
             int cursorX = 0;
             int cursorY = 0;
-
-            // zoomCenterX = (400 * zoom);
-            // zoomCenterY = zoomCenterY;
 
             if (SettingsWrangler.GeneralSettings.Capture_IncludeCursor || SettingsWrangler.GeneralSettings.Capture_IncludeHighlight || zoomInstruction == ZoomInstruction.InitOffset)
             {
@@ -418,9 +417,9 @@ namespace LapseOTron
             //      }
 
 
-            //      Debug.Print($"offsets: {offsetX},{offsetY} cursor: {cursorX},{cursorY} scales: {scaleX},{scaleY} drawsize: {drawWidth},{drawHeight}");
+            // Debug.Print($"offsets: {offsetX},{offsetY} cursor: {cursorX},{cursorY} scales: {scaleX},{scaleY} drawsize: {drawWidth},{drawHeight}");
 
-            //last = sw.ElapsedMilliseconds;
+            // last = sw.ElapsedMilliseconds;
             // Copy the raw data on screen into our Bitmap
 
             var g = GraphicsBuffer.Graphics;
@@ -551,7 +550,7 @@ namespace LapseOTron
                 if (checkIfContentChanged && contentChanged == false && ContentChange_PreviousFrameBuffer != null)
                 // ToDo: Check performance of this
                 // Looks like there are faster ways of doing this...
-                // Can we atleast cast byte[] to int[] or longint[] and do 64bit rather than 8bit at a time compairons?
+                // Can we atleast cast byte[] to int[] or longint[] and do 64bit rather than 8bit at a time comparisons?
 
                 // Change to screen content is more likely to be around the centerish of the screen, so top left to bottom right comparion is probably not the optimal way to do this.
                 // ToDo: Different checking pattern of what we are checking!
@@ -683,7 +682,6 @@ namespace LapseOTron
 #endif
 
             return screenshotImage;
-            // return BMP;
         }
 
         private static void Cleanup()
@@ -691,9 +689,8 @@ namespace LapseOTron
             if (RawScreenBitmap != IntPtr.Zero)
                 NativeMethods.DeleteObject(RawScreenBitmap);
 
-
             //    NativeMethods.DeleteDC(GeneralhMemDC);
-            //     NativeMethods.ReleaseDC(GeneralHWnd, GeneralhDC);
+            //    NativeMethods.ReleaseDC(GeneralHWnd, GeneralhDC);
         }
     }
 }

@@ -6,15 +6,15 @@
     <UseWPF>true</UseWPF>
     <UseWindowsForms>true</UseWindowsForms>
     <ApplicationIcon>LapseOTron.ico</ApplicationIcon>
-    <Authors>Mr B</Authors>
+    <Authors>Mister B</Authors>
     <Company>I The P</Company>
     <Product>Lapse-O-Tron</Product>
     <Description>Time lapse screen capture with funky extras</Description>
-    <Copyright>Copyright © 2018-2020 Martin Bastable</Copyright>
+    <Copyright>Copyright © 2018-2022 I The P</Copyright>
     <PackageId>Lapse-O-Tron</PackageId>
     <AssemblyVersion>0.3.3.0</AssemblyVersion>
     <FileVersion>0.3.0.0</FileVersion>
-    <Version>0.3.0</Version>
+    <Version>0.5.0</Version>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">

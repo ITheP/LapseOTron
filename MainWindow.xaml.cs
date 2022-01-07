@@ -176,8 +176,8 @@ namespace LapseOTron
 
         private void SetRateChangeInfo()
         {
-            string rateChangeDescription = ((Rate)UI_Rate.SelectedItem).Description; // UI_Zoom.SelectedValue.ToString();
-            string rateChangePeriod = ((ComboBoxItem)UI_RateChangePeriod.SelectedItem).Content.ToString(); // UI_RateChangePeriod.SelectedValue.ToString(); // ((ComboBoxItem)UI_RateChangePeriod.SelectedItem).Content.ToString(); //            // (UI_RateChangePeriod.SelectedValue.ToString());
+            string rateChangeDescription = ((Rate)UI_Rate.SelectedItem).Description;
+            string rateChangePeriod = ((ComboBoxItem)UI_RateChangePeriod.SelectedItem).Content.ToString();
             rateChangePeriod = rateChangePeriod.Replace("sec", "real second", StringComparison.CurrentCulture);
             rateChangePeriod = rateChangePeriod.Replace("min", "real minute", StringComparison.CurrentCulture);
             RateChangeInfo.Text = $"When selected, rate will change to {rateChangeDescription}, over a period of {rateChangePeriod}";
@@ -185,9 +185,8 @@ namespace LapseOTron
 
         private void SetZoomChangeInfo()
         {
-            //SelectedZoom = float.Parse(((ComboBoxItem)UI_Zoom.SelectedItem).Tag.ToString());
-            string zoomDescription = ((ComboBoxItem)UI_Zoom.SelectedItem).Content.ToString(); // UI_Zoom.SelectedValue.ToString();
-            string zoomPeriod = ((ComboBoxItem)UI_ZoomChangePeriod.SelectedItem).Content.ToString(); // UI_ZoomChangePeriod.SelectedValue.ToString();
+            string zoomDescription = ((ComboBoxItem)UI_Zoom.SelectedItem).Content.ToString();
+            string zoomPeriod = ((ComboBoxItem)UI_ZoomChangePeriod.SelectedItem).Content.ToString();
             zoomPeriod = zoomPeriod.Replace("sec", "real second", StringComparison.CurrentCulture);
             zoomPeriod = zoomPeriod.Replace("min", "real minute", StringComparison.CurrentCulture);
 
@@ -353,7 +352,7 @@ namespace LapseOTron
         {
             FrameCount++;
             // Debug.Print($"{FrameCount} {DateTime.Now.Second}.{DateTime.Now.Millisecond}");
-            //Debug.Print($"{FrameCount}");
+
             // Update preview if there is one waiting for us!
             if (NewScreenshot != null)
             {
@@ -442,12 +441,10 @@ namespace LapseOTron
 
                 SetVisual(ZoomVisual, ZoomVisualBorder, PreviousZoom, CurrentZoom, TargetZoom);
 
-                //       Debug.Print($"{FrameCount}: ZoomOut - PreviousZoom={PreviousZoom}, CurrentZoom={CurrentZoom}, TargetZoom={TargetZoom}");
-
-                //        Debug.Print($"{CurrentZoom}");
+                // Debug.Print($"{FrameCount}: ZoomOut - PreviousZoom={PreviousZoom}, CurrentZoom={CurrentZoom}, TargetZoom={TargetZoom}");
             }
 
-            //      DebugInfo.Text = $"Rate: {Rate:00.000}, Zoom: {CurrentZoom:0.000} - {DebugInfoExtra}";
+            //  DebugInfo.Text = $"Rate: {Rate:00.000}, Zoom: {CurrentZoom:0.000} - {DebugInfoExtra}";
 
             if (Rate != InfoLastRate)
             {
@@ -512,7 +509,6 @@ namespace LapseOTron
                 if (InfoIcon.FontFamily != Globals.Font_WingDings)
                     InfoIcon.FontFamily = Globals.Font_WingDings;
             }
-
 
             //if (Globals.ContentChanged != LastContentChangedState)
             //{
@@ -693,11 +689,6 @@ namespace LapseOTron
             }
         }
 
-        //private void Init_Click(object sender, RoutedEventArgs e)
-        //{
-
-        //}
-
         public void SetPreviewSize(double width, double height)
         {
             Preview.Width = width;
@@ -706,7 +697,6 @@ namespace LapseOTron
 
         private void InitSizeHandling()
         {
-            //                DestSize;
             string sizeDescription = Capture_Size.SelectedValue.ToString();
             SettingsWrangler.GeneralSettings.Capture_Size = sizeDescription;
 
@@ -837,7 +827,6 @@ namespace LapseOTron
         {
             Debug.Print("StopCapturer...");
 
-            string filename = "T:/Delme/lot.log";
             //using (StreamWriter sw = new StreamWriter(filename))
             {
                 AllowInvoke = false;
@@ -1118,7 +1107,7 @@ namespace LapseOTron
                     Rate = rate.Speed;
                     TargetRateChange = 0;
 
-                    SetVisual(RateVisual, RateVisualBorder, 0, 1, 1);        // Make sure it displays a full bar. It's possible this can be called part way through a current rate change
+                    SetVisual(RateVisual, RateVisualBorder, 0, 1, 1); // Make sure it displays a full bar. It's possible this can be called part way through a current rate change
                 }
                 else
                 {
@@ -1262,7 +1251,7 @@ namespace LapseOTron
             ZoomChanged = true;
             ZoomChangeHandled = false;
 
-    //        Debug.Print($"Zoom init: Zoom={CurrentZoom}, PreviousZoom={PreviousZoom}, TargetZoom={TargetZoom}, TargetZoomChange={TargetZoomChange}, ChangeResolution={changePeriod}*{InterfaceFrameRate}={changePeriod * InterfaceFrameRate}, ZoomRateOverride={Globals.ZoomRateOverride}");
+            // Debug.Print($"Zoom init: Zoom={CurrentZoom}, PreviousZoom={PreviousZoom}, TargetZoom={TargetZoom}, TargetZoomChange={TargetZoomChange}, ChangeResolution={changePeriod}*{InterfaceFrameRate}={changePeriod * InterfaceFrameRate}, ZoomRateOverride={Globals.ZoomRateOverride}");
         }
 
         private void ZoomIn()

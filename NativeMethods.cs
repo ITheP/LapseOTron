@@ -102,10 +102,10 @@ namespace LapseOTron
     [StructLayout(LayoutKind.Sequential)]
     public struct CursorInfo
     {
-        public int cbSize;        // Specifies the size, in bytes, of the structure. 
-        public int flags;         // Specifies the cursor state. This parameter can be one of the following values:
-        public IntPtr hCursor;          // Handle to the cursor. 
-        public POINT ptScreenPos;       // A POINT structure that receives the screen coordinates of the cursor. 
+        public int cbSize;          // Specifies the size, in bytes, of the structure. 
+        public int flags;           // Specifies the cursor state. This parameter can be one of the following values:
+        public IntPtr hCursor;      // Handle to the cursor. 
+        public POINT ptScreenPos;   // A POINT structure that receives the screen coordinates of the cursor. 
     }
 
     [StructLayout(LayoutKind.Sequential)]

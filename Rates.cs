@@ -21,6 +21,7 @@ namespace LapseOTron
             set
             {
                 double val = value;
+
                 // e.g. 600 seconds / 20x = 30 seconds
                 TimeSpan ts = new TimeSpan((long)(600.0d / val * TimeSpan.TicksPerSecond));
                 Example1 = $"{ts.Minutes}:{ts.Seconds.ToString("00")}.{(ts.Milliseconds / 100)}";
