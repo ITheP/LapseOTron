@@ -1,0 +1,62 @@
+﻿<Window x:Class="LapseOTron.CodecWarningWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:LapseOTron"
+        mc:Ignorable="d"
+        Title="Codec Warning"
+        WindowStartupLocation="CenterScreen"
+        Width="440" Height="415">
+    
+    <Window.Resources>
+        <Storyboard x:Key="WarningThrob">
+            <ColorAnimation Storyboard.TargetProperty="Foreground.Color" From="Red" To="#FFFFEEEE" Duration="0:0:1" AutoReverse="True" RepeatBehavior="Forever" />
+        </Storyboard>
+    </Window.Resources>
+    
+    <Grid>
+        <StackPanel Margin="8,0">
+            <TextBlock FontFamily="Segoe UI Symbol" FontSize="50" Foreground="Red" Text="⚠" HorizontalAlignment="Center" Margin="0,-16,0,0">
+                <TextBlock.Triggers>
+                    <EventTrigger RoutedEvent="Loaded">
+                        <EventTrigger.Actions>
+                            <BeginStoryboard>
+                                <StaticResource ResourceKey="WarningThrob"/>
+                            </BeginStoryboard>
+                        </EventTrigger.Actions>
+                    </EventTrigger>
+                </TextBlock.Triggers>
+            </TextBlock>
+            
+            <TextBlock TextWrapping="Wrap" TextAlignment="Center">
+                Lapse-O-Tron can't find a compatible video encoder to work.
+                <LineBreak/>
+                <LineBreak/>
+                Specifically - it requires a VfW (Video for Windows) codec to be installed.
+                <LineBreak/>
+                <LineBreak/>
+                If you have no alternatives, we recommend installing the rather fantastic free x264vfw codec which provides x264 encoding and can be found here...
+                <LineBreak/>
+            </TextBlock>
+            
+            <TextBlock TextAlignment="Center">
+                <Hyperlink NavigateUri="https://sourceforge.net/projects/x264vfw/" RequestNavigate="Hyperlink_RequestNavigate">https://sourceforge.net/projects/x264vfw/</Hyperlink>
+            </TextBlock>
+            
+            <TextBlock TextWrapping="Wrap" TextAlignment="Center">
+                <LineBreak/>
+                Once installed you should open up its configuration window and turn on the `Zero Latency` option (for smoother videos). We recommend configuring both the 32-bit and 64-bit versions. x264vfw may give a warning about the zero latency setting when starting up if this option is not set.
+                <LineBreak/>
+                <LineBreak/>
+                You can fiddle with other encoder options there, but you shouldn't need to.
+                <LineBreak/>
+                <LineBreak/>
+                Please restart Lapse-O-Tron when installed.
+                <LineBreak/>
+            </TextBlock>
+
+            <Button x:Name="Exit" Width="100" Content="Ok" Click="Exit_Click"/>
+        </StackPanel>
+    </Grid>
+</Window>

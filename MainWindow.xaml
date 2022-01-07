@@ -1,0 +1,555 @@
+﻿<Window x:Class="LapseOTron.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:sys="clr-namespace:System;assembly=mscorlib"
+        xmlns:options="http://schemas.microsoft.com/winfx/2006/xaml/presentation/options"
+        xmlns:local="clr-namespace:LapseOTron"
+        mc:Ignorable="d"
+        Title="Lapse-O-Tron v0.20 alpha"
+        SizeToContent="Manual"
+        ResizeMode="CanResize"
+        Loaded="Window_Loaded" 
+        Closing="Window_Closing"
+        
+        d:DesignWidth="650"
+        d:DesignHeight="450"
+        
+        MinWidth="350"
+        MinHeight="450"
+        
+        Width="650"
+        Height="450">
+
+    <Window.Triggers>
+        <EventTrigger RoutedEvent="Window.Loaded">
+            <EventTrigger.Actions>
+                <BeginStoryboard>
+                    <Storyboard RepeatBehavior="Forever">
+                        <!--<ColorAnimation Storyboard.TargetName="SCPBackground" Storyboard.TargetProperty="Color" From="White" To="Goldenrod" AutoReverse="True" Duration="0:0:0.5" />-->
+                        <!--<PointAnimation Storyboard.TargetName="Logo" Storyboard.TargetProperty="OpacityMask.(LinearGradientBrush.StartPoint)" From="0.5,0" To="0,0.5" Duration="0:0:1"></PointAnimation>-->
+                        <PointAnimation Storyboard.TargetName="Logo" Storyboard.TargetProperty="StartPoint" From="0.5,0" To="0.5,-1" Duration="0:0:1"></PointAnimation>
+                        <PointAnimation Storyboard.TargetName="Logo" Storyboard.TargetProperty="EndPoint" From="0.5,2" To="0.5,1" Duration="0:0:1"></PointAnimation>
+                    </Storyboard>
+                </BeginStoryboard>
+            </EventTrigger.Actions>
+        </EventTrigger>
+    </Window.Triggers>
+
+    <Window.Resources>
+        <Style x:Key="ExtraHelp" TargetType="FrameworkElement">
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding ElementName=UI_ExtraHelp, Path=IsChecked}" Value="True">
+                    <Setter Property="Visibility" Value="Visible" />
+                </DataTrigger>
+                <DataTrigger Binding="{Binding ElementName=UI_ExtraHelp, Path=IsChecked}" Value="False">
+                    <Setter Property="Visibility" Value="Collapsed" />
+                    <Setter Property="Margin" Value="0" />
+                    <!--Shouldn't be required, but have seen some weird visual going's on happening-->
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+
+        <Storyboard x:Key="HighlightTextFade">
+            <ColorAnimation Storyboard.TargetProperty="Foreground.Color" From="Orange" To="Black" Duration="0:0:1" />
+        </Storyboard>
+
+        <ControlTemplate x:Key="Capture_SizeHandling_Details" TargetType="{x:Type ContentControl}">
+            <Grid Background="White">
+                <StackPanel Orientation="Horizontal" Height="130">
+                    <TextBlock Text="{Binding Description}" Width="100" VerticalAlignment="Center" />
+                    <Image Source="{Binding Example}" Width="128" Height="128" VerticalAlignment="Center" />
+                </StackPanel>
+            </Grid>
+        </ControlTemplate>
+    </Window.Resources>
+
+    <Grid Margin="8,4,8,8"  HorizontalAlignment="Stretch">
+        <!--<Grid Margin="6,2,6,2">-->
+        <DockPanel>
+
+            <TabControl x:Name="Options" Visibility="Visible" Margin="8,-4,0,0" DockPanel.Dock="Right" Width="285" SelectionChanged="Options_SelectionChanged">
+                <TabItem Name="OPtions_About" Header="About">
+                    <StackPanel Margin="4" VerticalAlignment="Center">
+                        <TextBlock x:Name="AppTitle" FontSize="32" FontWeight="Bold" HorizontalAlignment="Center" >
+                            <TextBlock.Foreground>
+                                <LinearGradientBrush x:Name="Logo" MappingMode="RelativeToBoundingBox" StartPoint="0.5,0" EndPoint="0.5,2">
+                                    <GradientStop Color="Red"/>
+                                    <GradientStop Color="Yellow" Offset="0.26"/>
+                                    <GradientStop Color="Green" Offset="0.28"/>
+                                    <GradientStop Color="Blue" Offset="0.47"/>
+                                    <GradientStop Color="Red" Offset="0.5"/>
+                                    <GradientStop Color="Yellow" Offset="0.76"/>
+                                    <GradientStop Color="Green" Offset="0.78"/>
+                                    <GradientStop Color="Blue" Offset="1"/>
+                                </LinearGradientBrush>
+                            </TextBlock.Foreground>Title</TextBlock>
+
+                        <TextBlock x:Name="Version" Margin="0,10,0,0" TextAlignment="Center" HorizontalAlignment="Center" FontSize="12">Version</TextBlock>
+                        <TextBlock x:Name="Copyright" Margin="0,10,0,0" TextAlignment="Center" HorizontalAlignment="Center" FontSize="14" >Copyright</TextBlock>
+                        <TextBlock x:Name="Company" Margin="0,0,0,30" TextAlignment="Center" HorizontalAlignment="Center" FontSize="18">Company</TextBlock>
+                        <Image Source="/Images/ITP Logo 003 128x.png" Width="128" Height="120" />
+                        <!--<TextBlock x:Name="Description" TextAlignment="Center" HorizontalAlignment="Center" Foreground="DarkRed" FontSize="16">Description</TextBlock>-->
+                        <TextBlock Margin="0,30,0,0" TextAlignment="Center" Foreground="Red">TEST VERSION - NOT FOR DISTRIBUTION</TextBlock>
+                        <TextBlock x:Name="License" Margin="0,20,0,0" TextAlignment="Center" Foreground="Purple">This version will expire at some point.</TextBlock>
+                    </StackPanel>
+                </TabItem>
+                <TabItem Name="Options_Help" Header="Help">
+                    <StackPanel Margin="4">
+                        <TextBlock FontWeight="Bold">Rate...</TextBlock>
+                        <TextBlock FontWeight="ExtraLight" VerticalAlignment="Center" TextWrapping="Wrap">How long it should take to smoothly transition from one capture
+                        rate to another. Note this is approx and represents the real time period the change will take to make. If you use short change
+                        periods with longer rates, you won't see much difference in the resulting video.
+                        </TextBlock>
+
+                        <TextBlock FontWeight="Bold" Margin="0,4,0,0">Zoom...</TextBlock>
+                        <TextBlock  FontWeight="ExtraLight" VerticalAlignment="Center" TextWrapping="Wrap">How long it should take for a zoom activity to take place.
+                        Note this is the resulting time so e.g. 3 sec will zoom over a 3 second playback period.
+                        </TextBlock>
+                        <TextBlock FontStyle="Italic" Margin="0,4,0,0">Zoom around cursor</TextBlock>
+                        <TextBlock FontStyle="Italic">Video frame rate 60,50,30,25,20,15,10,5,1</TextBlock>
+                    </StackPanel>
+                </TabItem>
+                <TabItem Name="Options_Hotkeys" Header="Hot Keys">
+                    <StackPanel Margin="4">
+                        <TextBlock FontWeight="Bold">Key Bindings</TextBlock>
+                        <ScrollViewer HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Auto">
+                            <ItemsControl x:Name="KeyBindings" Margin="0,4,0,0" >
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate>
+                                        <Grid>
+                                            <StackPanel Orientation="Horizontal">
+                                                <TextBlock Text="{Binding KeyDescription}" Width="100" />
+                                                <TextBlock Text="{Binding Description}" />
+                                            </StackPanel>
+                                        </Grid>
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
+                        </ScrollViewer>
+                    </StackPanel>
+                </TabItem>
+                <TabItem Name="Options_Capture" Header="Capture" HorizontalAlignment="Left" Width="54">
+                    <StackPanel Margin="4">
+                        <TextBlock FontWeight="Bold">Capture options...</TextBlock>
+                        <CheckBox x:Name="Capture_IncludeCursor" Margin="0,4,0,0" IsChecked="True" Content="Include cursor in capture" ToolTip="Note the cursor will always be displayed at its actual size, zooming in will not affect it" Click="Capture_IncludeCursor_Click" />
+                        <CheckBox x:Name="Capture_IncludeHighlight" Margin="0,4,0,0" IsChecked="True" Content="Highlight area around cursor" Click="Capture_IncludeHighlight_Click" ToolTip="Highlighting around the cursor can help aid visibility" />
+                        <CheckBox x:Name="Capture_SkipDuplicateFrames" Margin="0,4,0,0" IsChecked="False" Content="Skip frames when nothing has changed" Click="Capture_SkipDuplicateFrames_Click" ToolTip="Lapse-O-Tron will watch the content of your target area, and will only capture video if a change has taken place." />
+                        <CheckBox x:Name="Capture_ZoomInToCursorPosition" Margin="0,4,0,0" IsChecked="False" Content="Zoom in to cursor position" Click="Capture_ZoomInToCursorPosition_Click" ToolTip="When zoom is triggered, will zoom in to cursor position. Defaults to centre when not set." />
+                        <CheckBox x:Name="Capture_HighQualityZoom" Margin="0,4,0,0" IsChecked="False" Content="High quality zoom pixel blending" Click="Capture_HighQualityZoom_Click" ToolTip="Zoom uses interpolation between pixels for a smoother look. This will have a bigger performance hit on your machine"/>
+                        <CheckBox x:Name="Capture_RemoveExtraBorders" Margin="0,4,0,0" IsEnabled="False" IsChecked="False" Content="Removes blured borders around windows" />
+                        <StackPanel Orientation="Horizontal" Margin="0,8,0,0">
+                            <TextBlock x:Name="Capture_SizeL" VerticalAlignment="Center" Width="80">Capture size</TextBlock>
+                            <TextBlock x:Name="Capture_SizeLocked" VerticalAlignment="Center" Width="20" FontFamily="Segoe MDL2 Assets" Text="&#xE785;" FontSize="16" ToolTip="Capture size will become locked while recording."/>
+                            <ComboBox x:Name="Capture_Size" FontFamily="Segoe UI Symbol" SelectedIndex="0" Width="155" SelectedValuePath="Content" SelectionChanged="Capture_Size_SelectionChanged">
+                                <ComboBoxItem Content="Original size" />
+                                <ComboBoxItem Content="Custom area" />
+                                <Separator />
+                                <ComboBoxItem Content="1280x720" />
+                                <ComboBoxItem Content="1920x1080" />
+                                <ComboBoxItem Content="3840x2160" />
+                            </ComboBox>
+                        </StackPanel>
+                        <StackPanel  Margin="0,8,0,4" Orientation="Horizontal">
+                            <TextBlock x:Name="Capture_SizeHandlingL" VerticalAlignment="Center" Width="100">Scaling</TextBlock>
+                            <ComboBox x:Name="Capture_SizeHandling" FontFamily="Segoe UI Symbol"  SelectedIndex="0" ItemsSource="{Binding Source={x:Static local:CaptureSizes.CaptureSizeList}}" VerticalAlignment="Center" HorizontalAlignment="Right" Width="155" SelectedValuePath="Content" SelectionChanged="Capture_SizeHandling_SelectionChanged">
+                                <!--<ComboBoxItem Content="Crop to fit" />
+                                    <ComboBoxItem Content="Squash to fit" />
+                                    <ComboBoxItem Content="Scale to fit" />-->
+                                <ComboBox.ItemTemplate>
+                                    <DataTemplate>
+                                        <Grid>
+                                            <TextBlock Text="{Binding Description}" />
+                                        </Grid>
+                                    </DataTemplate>
+                                </ComboBox.ItemTemplate>
+
+                                <ComboBox.ItemContainerStyle>
+                                    <Style TargetType="{x:Type ComboBoxItem}">
+                                        <Setter Property="Margin" Value="5"/>
+                                        <Setter Property="Template" Value="{StaticResource Capture_SizeHandling_Details}" />
+                                    </Style>
+                                </ComboBox.ItemContainerStyle>
+                            </ComboBox>
+                        </StackPanel>
+
+                        <Image Source="{Binding }" />
+                    </StackPanel>
+                </TabItem>
+                <TabItem Name="Options_Codec" Header="Encoder">
+                    <StackPanel Margin="4">
+                        <TextBlock FontWeight="Bold">Video encoder options...</TextBlock>
+                        <CheckBox x:Name="Encoder_CaptureRaw" Margin="0,4,0,0" IsChecked="False" Content="Save uncompressed (much bigger file sizes)" ToolTip="You are not able to toggle this option while recording" />
+                        <TextBlock FontWeight="Bold" Margin="0,8,0,0">Installed codecs...</TextBlock>
+                        <ItemsControl x:Name="InstalledCodecs" Margin="0,4,0,0" ItemsSource="{Binding Source={x:Static local:Globals.Mpeg4Codecs}}" >
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <Grid>
+                                        <StackPanel Orientation="Horizontal">
+                                            <TextBlock Margin="4,0,6,0"  FontFamily="Segoe MDL2 Assets" Text="&#xE950;" FontSize="16" Foreground="ForestGreen" />
+                                            <TextBlock Text="{Binding}" />
+                                        </StackPanel>
+                                    </Grid>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                    </StackPanel>
+                </TabItem>
+            </TabControl>
+
+
+            <StackPanel DockPanel.Dock="Top">
+                <TextBlock x:Name="DebugInfo" Margin="0,0,0,8" Visibility="Collapsed" />
+                <Grid>
+                    <TextBlock x:Name="SelectedAppWindowInfo" Margin="0,-4,0,-10" VerticalAlignment="Center" HorizontalAlignment="Left">Capture target...</TextBlock>
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,-4,0,0">
+                        <Button x:Name="UI_IncludeCursor" Height="26" Width="26" BorderThickness="0" Background="White" Margin="4,0,0,0" ToolTip="{Binding ElementName=Capture_IncludeCursor, Path=ToolTip}" Click="UI_IncludeCursor_Click" >
+                            <Grid>
+                                <TextBlock FontFamily="Segoe MDL2 Assets" Text="&#xE8B0;" FontSize="20">
+                                    <TextBlock.CacheMode>
+                                        <BitmapCache />
+                                    </TextBlock.CacheMode>
+                                    <TextBlock.Effect>
+                                        <BlurEffect Radius="10" />
+                                    </TextBlock.Effect>
+                                </TextBlock>
+                                <TextBlock FontFamily="Segoe MDL2 Assets" Text="&#xE8B0;" FontSize="20" />
+                            </Grid>
+                        </Button>
+                        <Button x:Name="UI_IncludeHighlight" Height="26" Width="26" BorderThickness="0" Background="White" Foreground="LightGray" Margin="4,0,0,0" ToolTip="{Binding ElementName=Capture_IncludeHighlight, Path=ToolTip}" Click="UI_IncludeHighlight_Click">
+                            <Grid>
+                                <TextBlock FontFamily="Segoe MDL2 Assets" Text="&#xE7E6;" FontSize="20" >
+                                    <TextBlock.CacheMode>
+                                        <BitmapCache />
+                                    </TextBlock.CacheMode>
+                                    <TextBlock.Effect>
+                                        <BlurEffect Radius="10" />
+                                    </TextBlock.Effect>
+                                </TextBlock>
+                                <TextBlock FontFamily="Segoe MDL2 Assets" Text="&#xE7E6;" FontSize="20" />
+                            </Grid>
+                        </Button>
+                        <Button x:Name="UI_SkipDuplicateFrames" Height="26" Width="26" Margin="5,0,0,0" BorderThickness="0" Background="White" ToolTip="{Binding ElementName=Capture_SkipDuplicateFrames, Path=ToolTip}" Click="UI_SkipDuplicateFrames_Click">
+                            <Grid>
+                                <TextBlock x:Name="UI_SkipDuplicateFrames_Bottom" FontFamily="Segoe MDL2 Assets" Text="&#xE8C8;" FontSize="20" Foreground="Black" >
+                                    <TextBlock.CacheMode>
+                                        <BitmapCache />
+                                    </TextBlock.CacheMode>
+                                    <TextBlock.Effect>
+                                        <BlurEffect Radius="10" />
+                                    </TextBlock.Effect>
+                                </TextBlock>
+                                <TextBlock x:Name="UI_SkipDuplicateFrames_Middle" FontFamily="Segoe MDL2 Assets" Text="&#xE8C8;" FontSize="20" Foreground="Black"></TextBlock>
+                                <TextBlock x:Name="UI_SkipDuplicateFrames_Top" FontFamily="Segoe MDL2 Assets" Text="&#xEDAE;" Margin="7.5,8,0,0" FontSize="10" Foreground="Red"></TextBlock>
+                            </Grid>
+                        </Button>
+                        <Button x:Name="UI_ZoomInToCursorPosition" Height="26" Width="26" BorderThickness="0" Background="White" FontSize="20" Margin="3,0,0,0" ToolTip="{Binding ElementName=Capture_ZoomInToCursorPosition, Path=ToolTip}" Click="UI_ZoomInToCursorPosition_Click">
+                            <Grid>
+                                <TextBlock FontFamily="Segoe MDL2 Assets" Text="&#xF272;" FontSize="20" >
+                                    <TextBlock.CacheMode>
+                                        <BitmapCache />
+                                    </TextBlock.CacheMode>
+                                    <TextBlock.Effect>
+                                        <BlurEffect Radius="10" />
+                                    </TextBlock.Effect>
+                                </TextBlock>
+                                <TextBlock FontFamily="Segoe MDL2 Assets" Text="&#xF272;" FontSize="20" />
+                            </Grid>
+                        </Button>
+
+                        <Button x:Name="UI_HighQualityZoom" Height="26" Width="26" BorderThickness="0" Background="White" FontSize="20" Margin="4,-1,0,0" ToolTip="{Binding ElementName=Capture_HighQualityZoom, Path=ToolTip}" Click="UI_HighQualityZoom_Click">
+                            <Grid>
+                                <TextBlock FontFamily="Segoe MDL2 Assets" Text="&#xE2AC;" FontSize="20" >
+                                    <TextBlock.CacheMode>
+                                        <BitmapCache />
+                                    </TextBlock.CacheMode>
+                                    <TextBlock.Effect>
+                                        <BlurEffect Radius="10" />
+                                    </TextBlock.Effect>
+                                </TextBlock>
+                                <TextBlock FontFamily="Segoe MDL2 Assets" Text="&#xE2AC;" FontSize="20" />
+                            </Grid>
+                        </Button>
+
+                        <!--<TextBlock x:Name="UI_Performance" Height="26" Width="26" HorizontalAlignment="Center" VerticalAlignment="Center" FontFamily="Segoe MDL2 Assets" Text="&#xEF31;" FontSize="20" Margin="10,6,0,0" ToolTip="Performance overhead - if high then Lapse-O-Tron may have difficulty keeping up with the capture rate. Note that this might just mean you need to allow a bit more time for things like zooming too complete."></TextBlock>-->
+                        <Grid VerticalAlignment="Center" Margin="10,0,0,0" ToolTip="Basic performance indicator. Empty/green means we are doing well. Red/full means your PC is straining a bit! This might mean Lapse-O-Tron can't quite keep up with real time capture.">
+                            <Rectangle x:Name="UI_PerformanceVisual" Width="10" Fill="LimeGreen" Stroke="DarkGray"  Height="20" VerticalAlignment="Bottom" />
+                            <Rectangle x:Name="UI_PerformanceVisualBorder" Width="10" Fill="Transparent" Stroke="DarkGray" Height="20" VerticalAlignment="Bottom" />
+                        </Grid>
+                        
+                        <ToggleButton x:Name="UI_ExtraHelp" Height="26" Width="26" Margin="0,0,0,0" Content="&#xE897;" FontFamily="Segoe MDL2 Assets" BorderThickness="0" Background="White" FontSize="16" FontWeight="Bold" ToolTip="Show extra help in the interface" />
+                    </StackPanel>
+                </Grid>
+
+                <DockPanel>
+                    <TextBlock x:Name="UI_SelectedAppWindowLock" DockPanel.Dock="Right" VerticalAlignment="Bottom" FontFamily="Segoe MDL2 Assets" Text="&#xE785;" FontSize="16" Margin="4,-4,0,3" ToolTip="Capture target selection become locked while recording."></TextBlock>
+                    <ComboBox x:Name="UI_SelectedAppWindow" Margin="0,6,0,0" VerticalAlignment="Center" SelectedValuePath="{Binding Hwnd}"
+                              DropDownOpened="AppWindows_DropDownOpened" SelectionChanged="SelectedAppWindow_SelectionChanged">
+                        <!--<ComboBox.ItemContainerStyle>
+                    <Style TargetType="ComboBoxItem">
+                        <Setter Property="Width" Value="350" />
+                    </Style>
+                </ComboBox.ItemContainerStyle>-->
+                        <ComboBox.ItemTemplate>
+                            <DataTemplate>
+                                    <Grid>
+                                        <TextBlock x:Name="UI_SelectedAppWindow_Description"  Text="{Binding Title}" Width="478" VerticalAlignment="Center">
+                                            <TextBlock.Style>
+                                                <Style TargetType="TextBlock">
+                                                    <Style.Triggers>
+                                                        <DataTrigger Binding="{Binding Path=HWnd}" Value="{x:Static sys:IntPtr.Zero}">
+                                                            <DataTrigger.Setters>
+                                                                <Setter Property="Background" >
+                                                                    <Setter.Value>
+                                                                        <LinearGradientBrush EndPoint="1,0.5" MappingMode="RelativeToBoundingBox" StartPoint="0,0.5">
+                                                                            <GradientStop Color="#FFE8E8E8" Offset="1"/>
+                                                                            <GradientStop Color="#FF636363" Offset="0"/>
+                                                                        </LinearGradientBrush>
+                                                                    </Setter.Value>
+                                                                </Setter>
+                                                                <!--<Setter Property="FontWeight" Value="Bold" />-->
+                                                                <Setter Property="FontSize" Value="16" />
+                                                                <Setter Property="Foreground" Value="White" />
+                                                                <!--<Setter Property="Margin" Value="-6,4,0,-2" />-->
+                                                                <Setter Property="Padding" Value="6,1,0,3" />
+                                                            </DataTrigger.Setters>
+                                                        </DataTrigger>
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </TextBlock.Style>
+                                        </TextBlock>
+                                        <Image Source="{Binding Preview}" Margin="350,0,0,0" />
+                                    </Grid>
+                                    <DataTemplate.Triggers>
+                                    <DataTrigger Binding="{Binding}" Value="{x:Null}">
+                                        <Setter TargetName="UI_SelectedAppWindow_Description" Property="Text" Value="Default Value" />
+                                    </DataTrigger>
+                                </DataTemplate.Triggers>
+                            </DataTemplate>
+                        </ComboBox.ItemTemplate>
+                    </ComboBox>
+
+                </DockPanel>
+
+
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,4,0,0" >
+                    <TextBlock VerticalAlignment="Center" x:Name="InfoIcon" Width="16"  TextAlignment="Center" FontSize="16" FontFamily="Wingdings" Foreground="Black">J</TextBlock>
+                    <TextBlock VerticalAlignment="Center" x:Name="Info" Margin="2,0,0,0" Foreground="Black">Select capture target you want to record...</TextBlock>
+                </StackPanel>
+
+                <Grid Margin="0,8,0,0">
+
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Top">
+                        <Button x:Name="UI_Record" Width="26" Height="26" Margin="0,0,6,0" Content="&#xE7C8;" FontFamily="Segoe MDL2 Assets" FontSize="22" Foreground="DarkRed" Click="UI_Record_Click" ToolTip="Start recording a new video"></Button>
+                        <Button x:Name="UI_Pause" Width="26" Height="26" Margin="0,0,6,0" Content="&#xE769;" FontFamily="Segoe MDL2 Assets" FontSize="18" Visibility="Collapsed" Click="UI_Pause_Click" ToolTip="Pause recording of current video"></Button>
+                        <Button x:Name="UI_Play" Width="26" Height="26" Margin="0,0,6,0" Content="&#xE768;" FontFamily="Segoe MDL2 Assets" FontSize="18" Visibility="Collapsed" Click="UI_Play_Click" ToolTip="Continue paused recording of current video"></Button>
+                        <Button x:Name="UI_Stop" Width="26" Height="26" Margin="0,0,6,0" Content="&#xE71A;" FontFamily="Segoe MDL2 Assets" FontSize="16" IsEnabled="False"  Click="UI_Stop_Click" ToolTip="Stop recording video"></Button>
+                    </StackPanel>
+
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Top">
+                        <Button x:Name="UI_Screenshot" Width="26" Height="26" Margin="0,0,6,0" Content="&#xE722;" FontFamily="Segoe MDL2 Assets" FontSize="16" Foreground="Purple" ToolTip="Screenshots are saved along with videos in a .png format. While recording, screenshot size will match the recorded video size." Click="UI_Screenshot_Click"/>
+                        <Button x:Name="UI_Settings" Width="26" Height="26" Content="&#xE713;" FontFamily="Segoe MDL2 Assets" FontSize="17" Click="UI_Settings_Click"></Button>
+                    </StackPanel>
+
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                        <StackPanel>
+                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                                <Button x:Name="UI_ZoomIn" Width="26" Height="26" FontSize="16" Margin="4,0,6,0" FontFamily="Segoe MDL2 Assets" Content="&#xE8A3;" Click="UI_ZoomIn_Click" ToolTip="Trigger zoom in"></Button>
+                                <Button x:Name="UI_ZoomOut" Width="26" Height="26" FontSize="16" FontFamily="Segoe MDL2 Assets" Content="&#xE71F;" Visibility="Visible" Click="UI_ZoomOut_Click" ToolTip="Trigger zoom out"></Button>
+                            </StackPanel>
+                            <TextBlock HorizontalAlignment="Center" Style="{StaticResource ExtraHelp}" Margin="0,2,0,0">Zoom</TextBlock>
+                        </StackPanel>
+                        <StackPanel>
+                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                                <Button x:Name="UI_ZoomInInstant" Width="26" Height="26"  Margin="10,0,6,0"  Click="UI_ZoomInInstant_Click" ToolTip="Zoom in instantly">
+                                    <Grid>
+                                        <TextBlock FontSize="16" FontFamily="Segoe MDL2 Assets">&#xE8A3;</TextBlock>
+                                        <TextBlock FontSize="10" FontFamily="Segoe MDL2 Assets" Margin="0,-3,-4,0" HorizontalAlignment="Right" VerticalAlignment="Top" Foreground="OrangeRed">&#xE735;</TextBlock>
+                                    </Grid>
+                                </Button>
+                                <Button x:Name="UI_ZoomOutInstant" Width="26" Height="26" Visibility="Visible" Click="UI_ZoomOutInstant_Click" ToolTip="Zoom out instantly">
+                                    <Grid>
+                                        <TextBlock FontSize="16" FontFamily="Segoe MDL2 Assets">&#xE8A3;</TextBlock>
+                                        <TextBlock FontSize="10" FontFamily="Segoe MDL2 Assets" Margin="0,-3,-4,0" HorizontalAlignment="Right" VerticalAlignment="Top" Foreground="OrangeRed">&#xE735;</TextBlock>
+                                    </Grid>
+                                </Button>
+                            </StackPanel>
+                            <TextBlock HorizontalAlignment="Center" Style="{StaticResource ExtraHelp}" Margin="0,2,0,0">Instant</TextBlock>
+                        </StackPanel>
+                    </StackPanel>
+                </Grid>
+
+
+                <!--<Separator Margin="0,6,0,8" />-->
+
+
+                <!--<Separator Margin="0,8,0,4"/>-->
+
+                <Grid Margin="0,8,0,0">
+                    <!--<TextBlock>Preview...</TextBlock>-->
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" >
+                        <Grid>
+                            <Rectangle x:Name="RateVisual" Width="10" Fill="LimeGreen" Stroke="DarkGray" Height="17" VerticalAlignment="Bottom" />
+                            <Rectangle x:Name="RateVisualBorder" Width="10" Fill="Transparent" Stroke="DarkGray" Height="17" VerticalAlignment="Bottom" />
+                        </Grid>
+                        <!--<TextBlock FontFamily="Segoe MDL2 Assets" Text="&#xE769;" VerticalAlignment="Center" FontSize="14"></TextBlock>-->
+                        <TextBlock x:Name="RateInfoIcon" FontFamily="Segoe MDL2 Assets" Text="&#xEC4A;" Margin="4,0,0,0" VerticalAlignment="Center" FontSize="14"></TextBlock>
+                        <TextBlock x:Name="RateInfo" Margin="3,0,0,0">Rate</TextBlock>
+                        <Grid Margin="20,0,0,0" >
+                            <Rectangle x:Name="ZoomVisual" Width="10" Fill="LimeGreen" Stroke="DarkGray" Height="17" VerticalAlignment="Bottom"  />
+                            <Rectangle x:Name="ZoomVisualBorder" Width="10" Fill="Transparent" Stroke="DarkGray" Height="17" VerticalAlignment="Bottom" />
+                        </Grid>
+                        <TextBlock FontFamily="Segoe MDL2 Assets" Text="&#xE71E;" Margin="4,0,0,0" VerticalAlignment="Center" FontSize="12"></TextBlock>
+                        <TextBlock x:Name="ZoomInfo" Margin="3,0,0,0">Zoom</TextBlock>
+
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+
+                        <TextBlock FontFamily="Segoe MDL2 Assets" Text="&#xE714;" Margin="20,1,2,0" VerticalAlignment="Center" FontSize="16"></TextBlock>
+                        <TextBlock x:Name="DestinationSizeInfo" Margin="3,0,0,0">Video size</TextBlock>
+                        <TextBlock x:Name="DestinationSizeInfoLock" FontFamily="Segoe MDL2 Assets" Text="&#xE785;" FontSize="16" Margin="4,-1,0,0" ToolTip="Capture size will become locked while recording."></TextBlock>
+                    </StackPanel>
+                </Grid>
+            </StackPanel>
+
+            <StackPanel DockPanel.Dock="Bottom">
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Margin="0,4,0,0">
+                    <!--<Grid>
+                        <Rectangle x:Name="RateVisual" Width="10" Fill="LimeGreen" Stroke="DarkGray" Height="26" VerticalAlignment="Bottom" />
+                        <Rectangle Width="10" Fill="Transparent" Stroke="DarkGray" Height="26" VerticalAlignment="Bottom" />
+                    </Grid>-->
+
+                    <Label VerticalAlignment="Center" FontWeight="Bold" Width="45">Rate</Label>
+                    <ComboBox x:Name="UI_Rate" FontFamily="Segoe UI Symbol" VerticalAlignment="Center" Width="80" SelectedValuePath="Description" SelectionChanged="UI_Rate_SelectionChanged">
+                        <ComboBox.ItemTemplate>
+                            <DataTemplate>
+                                <Grid>
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock Text="{Binding Description}" Width="55" />
+                                        <TextBlock Text="{Binding Example1}" TextAlignment="Right" Width="55" />
+                                        <TextBlock Text="{Binding Example2}" TextAlignment="Right" Width="55" />
+                                        <TextBlock Text="{Binding Example3}" TextAlignment="Right" Width="55" />
+                                    </StackPanel>
+                                </Grid>
+                            </DataTemplate>
+                        </ComboBox.ItemTemplate>
+                    </ComboBox>
+
+                    <Label VerticalAlignment="Center" Margin="11,0,2,0">Period</Label>
+
+                    <ComboBox x:Name="UI_RateChangePeriod" VerticalAlignment="Center" Width="80" SelectedValue="Instant" SelectedValuePath="Content" SelectionChanged="UI_RateChangePeriod_SelectionChanged">
+                        <ComboBoxItem Content="Instant" Tag="0.0"/>
+                        <ComboBoxItem Content="1 sec" Tag="1.0"/>
+                        <ComboBoxItem Content="2 secs" Tag="2.0"/>
+                        <ComboBoxItem Content="3 secs" Tag="3.0"/>
+                        <ComboBoxItem Content="4 secs" Tag="4.0"/>
+                        <ComboBoxItem Content="5 secs" Tag="5.0"/>
+                        <ComboBoxItem Content="6 secs" Tag="6.0"/>
+                        <ComboBoxItem Content="7 secs" Tag="7.0"/>
+                        <ComboBoxItem Content="8 secs" Tag="8.0"/>
+                        <ComboBoxItem Content="9 secs" Tag="9.0"/>
+                        <ComboBoxItem Content="10 sec" Tag="10.0"/>
+                        <ComboBoxItem Content="15 sec" Tag="15.0"/>
+                        <ComboBoxItem Content="20 secs" Tag="20.0"/>
+                        <ComboBoxItem Content="30 secs" Tag="30.0"/>
+                        <ComboBoxItem Content="45 secs" Tag="45.0"/>
+                        <ComboBoxItem Content="1 min" Tag="60.0"/>
+                        <ComboBoxItem Content="1½ mins" Tag="90.0"/>
+                        <ComboBoxItem Content="2 mins" Tag="120.0"/>
+                        <ComboBoxItem Content="2½ mins" Tag="150.0"/>
+                        <ComboBoxItem Content="3 mins" Tag="180.0"/>
+                        <ComboBoxItem Content="4 mins" Tag="240.0"/>
+                        <ComboBoxItem Content="5 mins" Tag="300.0"/>
+                        <ComboBoxItem Content="7½ mins" Tag="450.0"/>
+                        <ComboBoxItem Content="10 mins" Tag="600.0"/>
+                    </ComboBox>
+                </StackPanel>
+
+                <TextBlock x:Name="RateChangeInfo" VerticalAlignment="Center" Style="{StaticResource ExtraHelp}" Margin="45,2,6,0" HorizontalAlignment="Left" TextWrapping="Wrap" FontStyle="Italic">When selected the rate will change from the current rate to the new selected rate above, over a period of 30 real seconds.</TextBlock>
+
+                <StackPanel Orientation="Horizontal" Margin="0,6,0,0">
+                    <!--<Grid>
+                        <Rectangle x:Name="ZoomVisual" Width="10" Fill="LimeGreen" Stroke="DarkGray" Height="26" VerticalAlignment="Bottom"  />
+                        <Rectangle Width="10" Fill="Transparent" Stroke="DarkGray" Height="26" VerticalAlignment="Bottom" />
+                    </Grid>-->
+
+                    <Label VerticalAlignment="Center" FontWeight="Bold" Width="45">Zoom</Label>
+
+                    <ComboBox x:Name="UI_Zoom" FontFamily="Segoe UI" VerticalAlignment="Center" Width="80" SelectedIndex="3" SelectedValuePath="Content" SelectionChanged="UI_Zoom_SelectionChanged">
+                        <ComboBoxItem Content="1¼x" Tag="1.25"/>
+                        <ComboBoxItem Content="1½x" Tag="1.5"/>
+                        <ComboBoxItem Content="1¾x" Tag="1.75"/>
+                        <ComboBoxItem Content="2x" Tag="2"/>
+                        <ComboBoxItem Content="2½" Tag="2.5"/>
+                        <ComboBoxItem Content="3x" Tag="3"/>
+                        <ComboBoxItem Content="4x" Tag="4"/>
+                        <ComboBoxItem Content="5x" Tag="5"/>
+                        <ComboBoxItem Content="6x" Tag="6"/>
+                        <ComboBoxItem Content="7x" Tag="7"/>
+                        <ComboBoxItem Content="8x" Tag="8"/>
+                        <ComboBoxItem Content="9x" Tag="9"/>
+                        <ComboBoxItem Content="10x" Tag="10"/>
+                        <ComboBoxItem Content="Custom 1" Tag="-1"/>
+                        <ComboBoxItem Content="Custom 2" Tag="-2"/>
+                        <ComboBoxItem Content="Custom 3" Tag="-3"/>
+                    </ComboBox>
+
+                    <Label VerticalAlignment="Center" Margin="11,0,2,0">Period</Label>
+
+                    <ComboBox x:Name="UI_ZoomChangePeriod" VerticalAlignment="Center" Width="80" SelectedValue="Instant" SelectedValuePath="Content" SelectionChanged="UI_ZoomChangePeriod_SelectionChanged">
+                        <ComboBoxItem Content="Instant" Tag="0.0"/>
+                        <ComboBoxItem Content="1 sec" Tag="1.0"/>
+                        <ComboBoxItem Content="2 secs" Tag="2.0"/>
+                        <ComboBoxItem Content="3 secs" Tag="3.0"/>
+                        <ComboBoxItem Content="4 secs" Tag="4.0"/>
+                        <ComboBoxItem Content="5 secs" Tag="5.0"/>
+                        <ComboBoxItem Content="6 secs" Tag="6.0"/>
+                        <ComboBoxItem Content="7 secs" Tag="7.0"/>
+                        <ComboBoxItem Content="8 secs" Tag="8.0"/>
+                        <ComboBoxItem Content="9 secs" Tag="9.0"/>
+                        <ComboBoxItem Content="10 sec" Tag="10.0"/>
+                        <ComboBoxItem Content="15 sec" Tag="15.0"/>
+                        <ComboBoxItem Content="20 secs" Tag="20.0"/>
+                        <ComboBoxItem Content="30 secs" Tag="30.0"/>
+                        <ComboBoxItem Content="45 secs" Tag="45.0"/>
+                        <ComboBoxItem Content="1 min" Tag="60.0"/>
+                        <ComboBoxItem Content="1½ mins" Tag="90.0"/>
+                        <ComboBoxItem Content="2 mins" Tag="120.0"/>
+                        <ComboBoxItem Content="2½ mins" Tag="150.0"/>
+                        <ComboBoxItem Content="3 mins" Tag="180.0"/>
+                        <ComboBoxItem Content="4 mins" Tag="240.0"/>
+                        <ComboBoxItem Content="5 mins" Tag="300.0"/>
+                        <ComboBoxItem Content="7½ mins" Tag="450.0"/>
+                        <ComboBoxItem Content="10 mins" Tag="600.0"/>
+                    </ComboBox>
+                </StackPanel>
+
+                <CheckBox x:Name="Capture_RealtimeZoomRate" Margin="45,6,0,0" IsChecked="True" Content=" Use Realtime rate when zooming" />
+
+                <TextBlock x:Name="ZoomChangeInfo" VerticalAlignment="Center" Style="{StaticResource ExtraHelp}" Margin="45,4,6,0" HorizontalAlignment="Left" TextWrapping="Wrap" FontStyle="Italic">When zoom in is triggered, will change from the current zoom to 5x zoom in real time over a period of 2 real seconds.</TextBlock>
+            </StackPanel>
+
+            <Grid Background="#FF555555" Margin="0,6,0,4" x:Name="PreviewHolder">
+                <Border BorderThickness="0.5" BorderBrush="Black"  HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                    <Border.Background>
+                        <VisualBrush TileMode="Tile" Viewport="0,0,5,5" ViewportUnits="Absolute" Viewbox="0,0,5,5" ViewboxUnits="Absolute" options:Freeze="True">
+                            <VisualBrush.Visual>
+                                <Path Data="M 0 5 L 5 0 M -2 2 L 2 -2 M 3 7 L 7 3"
+                                Stroke="#FFBB7777" StrokeEndLineCap="Square"
+                                RenderOptions.EdgeMode="Aliased" />
+                            </VisualBrush.Visual>
+                        </VisualBrush>
+                    </Border.Background>
+                    <Viewbox MinHeight="200" MinWidth="200"  HorizontalAlignment="Stretch" VerticalAlignment="Stretch" >
+                        <Grid Background="Black">
+                            <!--<Image x:Name="Preview" HorizontalAlignment="Stretch" Height="200" />-->
+                            <Image x:Name="Preview" Height="720" Width="1280" Stretch="None"  />
+                        </Grid>
+                    </Viewbox>
+                </Border>
+            </Grid>
+
+        </DockPanel>
+    </Grid>
+</Window>

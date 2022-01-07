@@ -1,0 +1,47 @@
+﻿<Window x:Class="LapseOTron.ExpiredWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:LapseOTron"
+        mc:Ignorable="d"
+        Title="Codec Warning"
+        WindowStartupLocation="CenterScreen"
+        Width="440"
+        Height="220">
+    
+    <Window.Resources>
+        <Storyboard x:Key="WarningThrob">
+            <ColorAnimation Storyboard.TargetProperty="Foreground.Color" From="Red" To="#FFFFEEEE" Duration="0:0:1" AutoReverse="True" RepeatBehavior="Forever" />
+        </Storyboard>
+    </Window.Resources>
+    
+    <Grid>
+        <StackPanel Margin="8,0">
+            <TextBlock FontFamily="Segoe UI Symbol" FontSize="50" Foreground="Red" Text="⚠" HorizontalAlignment="Center" Margin="0,-16,0,0">
+                <TextBlock.Triggers>
+                    <EventTrigger RoutedEvent="Loaded">
+                        <EventTrigger.Actions>
+                            <BeginStoryboard>
+                                <StaticResource ResourceKey="WarningThrob"/>
+                            </BeginStoryboard>
+                        </EventTrigger.Actions>
+                    </EventTrigger>
+                </TextBlock.Triggers>
+            </TextBlock>
+            
+            <TextBlock TextWrapping="Wrap" TextAlignment="Center">
+                This version of Lapse-O-Tron has expired.
+                <LineBreak/>
+                <LineBreak/>
+                It is a non-public development version.
+                <LineBreak/>
+                <LineBreak/>
+                Please use a newer updated release.
+                <LineBreak/>
+            </TextBlock>
+            
+            <Button x:Name="Exit" Width="100" Margin="0,0,0,15" Content="Ok" Click="Exit_Click"/>
+        </StackPanel>
+    </Grid>
+</Window>

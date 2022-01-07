@@ -1,0 +1,8 @@
+﻿Needs relevant codecs installed.
+
+Recommend...
+
+https://sourceforge.net/projects/x264vfw/
+x264vfw_full_44_2851bm_44825.exe
+
+Once installed, strike up its configuration window, set Zero Latency option
